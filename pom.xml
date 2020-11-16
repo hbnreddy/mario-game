@@ -4,8 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-	
-
 
   <groupId>com.example.maven-project</groupId>
   <artifactId>maven-project</artifactId>
@@ -14,19 +12,13 @@
   <name>Maven Project</name>
   <description>Sample Maven project with a working, deployable site.</description>
   <url>http://www.example.com</url>
-   
- <properties>
+    
+         
+                 
+  <properties>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
-  </properties> 
-
-
-
-
-  <ciManagement>
-    <system>Travis</system>
-    <url>https://travis-ci.org/SonarSource/sonar-scanner-jenkins</url>
-  </ciManagement>
+  </properties>
 
   <modules>
     <module>server</module>
@@ -50,16 +42,13 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-                           <plugin>
-     <artifactId>maven-war-plugin</artifactId>
-     <version>2.2</version>
-     <configuration>
-      <source>1.7</source>
-      <target>1.7</target>
-      <failOnMissingWebXml>false</failOnMissingWebXml>
-     </configuration>
-    </plugin>                                  
-   
+
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+        </configuration>
+      </plugin>
 
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
@@ -68,37 +57,11 @@
             <plugin>
               <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
-		  
-		  <plugin>
- 			 <groupId>org.jacoco</groupId>
- 			 <artifactId>jacoco-maven-plugin</artifactId>
- 			 <version>0.7.9</version>
- 			 <configuration>
- 		   <destFile>${basedir}/target/coverage-reports/jacoco-unit-exec</destFile>
- 		   <dataFile>${basedir}/target/coverage-reports/jacoco-unit-exec</dataFile>
-  			</configuration>
- 			 <executions>
- 			 <execution>
-  			   <id>jacoco-initialize</id>
-				 <goals>
-			     <goal>prepare-agent</goal>
-				 </goals>
-  				</execution>
- 				  <execution>
-           			   <id>jacoco-site</id>
-				  <phase>packge</phase>
-				  <goals>
-			 	 <goal>report</goal>
-			  	</goals>
-  				</execution>
-  				</executions>
-  				</plugin>
 
             <plugin>
               <artifactId>maven-jxr-plugin</artifactId>
             </plugin>
-                
-		   
+
             <plugin>
               <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
@@ -110,14 +73,7 @@
             <plugin>
               <artifactId>maven-surefire-report-plugin</artifactId>
             </plugin>
-		  
-	  
-             <plugin>
-           <artifactId>maven-war-plugin</artifactId>
-           <version>3.0.0</version>
-		  </plugin>
-		 
-          
+
             <plugin>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>findbugs-maven-plugin</artifactId>
@@ -142,7 +98,7 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>2.3.2</version>
-          </plugin>
+        </plugin>
 
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
@@ -174,7 +130,10 @@
           <version>2.5</version>
         </plugin>
 
-        
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.0</version>
+        </plugin>
 
         <plugin>
           <artifactId>maven-surefire-report-plugin</artifactId>
@@ -191,7 +150,14 @@
           <artifactId>findbugs-maven-plugin</artifactId>
           <version>2.3.3</version>
         </plugin>
-
+               
+               <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-war-plugin</artifactId>
+  <version>2.2</version>
+</plugin>
+               
+               
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>taglist-maven-plugin</artifactId>
@@ -203,8 +169,12 @@
           <artifactId>jetty-maven-plugin</artifactId>
           <version>8.0.0.M1</version>
         </plugin>
+               
       </plugins>
     </pluginManagement>
+           
+   
+                                    
   </build>
 
   <dependencyManagement>
@@ -214,40 +184,6 @@
         <artifactId>servlet-api</artifactId>
         <version>2.5</version>
       </dependency>
-	    <!-- https://mvnrepository.com/artifact/io.jenkins.plugins/code-coverage-api -->
-<dependency>
-    <groupId>io.jenkins.plugins</groupId>
-    <artifactId>code-coverage-api</artifactId>
-    <version>1.1.2</version>
-</dependency>
-<dependency>
-      <groupId>org.sonarsource.sonarqube</groupId>
-      <artifactId>sonar-ws</artifactId>
-      <version>6.7</version>
-    </dependency>
-
-	    <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
-<dependency>
-    <groupId>org.jacoco</groupId>
-    <artifactId>jacoco-maven-plugin</artifactId>
-    <version>0.8.3</version>
-</dependency>
-	    
-	    <!-- https://mvnrepository.com/artifact/org.sonarsource.java/sonar-java-plugin -->
-<dependency>
-    <groupId>org.sonarsource.java</groupId>
-    <artifactId>sonar-java-plugin</artifactId>
-    <version>5.9.1.16423</version>
-    <scope>provided</scope>
-</dependency>
-	    <!-- https://mvnrepository.com/artifact/com.github.spotbugs/sonar-findbugs-plugin -->
-<dependency>
-    <groupId>com.github.spotbugs</groupId>
-    <artifactId>sonar-findbugs-plugin</artifactId>
-    <version>3.9.1</version>
-</dependency>
-
-	    
 
       <dependency>
         <groupId>javax.servlet.jsp</groupId>
@@ -275,7 +211,7 @@
         <version>1.2.1</version>
         <scope>test</scope>
       </dependency>
-
+                          
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>

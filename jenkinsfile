@@ -1,0 +1,54 @@
+currentBuild.displayName="mario-game-#"+currentBuild.number
+pipeline{
+    agent any 
+    
+
+
+        stages{
+            stage("Checkout-SCM"){
+                steps{
+                    checkout([$class: 'GitSCM', 
+					branches: [[name: '*/master']], 
+					doGenerateSubmoduleConfigurations: false, 
+					extensions: [],
+					submoduleCfg: [], 
+					userRemoteConfigs: [[credentialsId: 'github_credentials', 
+					url: 'https://github.com/hbnreddy/mario-game.git']]])
+                }
+            }
+            stage("Build"){
+                steps{
+                    sh 'mvn package'
+                }
+            }
+            stage("ArchiveArtifacts"){
+                steps{
+                    archiveArtifacts '**/*.war'
+                }
+            }
+            stage("pre-production")
+                {
+                    steps{
+                     sh label: '', script: 'scp /var/lib/jenkins/workspace/mario-game/target/mario-1.0-SNAPSHOT.war	 ubuntu@172.31.19.219:/home/ubuntu/appserver/webapps/mariov1.0.war'        
+                }
+            }
+            stage('production') {
+            input {
+                message "Should we continue?"
+                ok "Yes, we should."
+                submitter "krish"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Mr Krish', description: 'Who should I say hello to?')
+                }
+            }
+            steps {
+              sh label: '', script: 'scp /var/lib/jenkins/workspace/mario-game/target/app.war ubuntu@172.31.19.219:/home/ubuntu/appserver/webapps/mariov1.1.war'        
+
+                echo "Hello, ${PERSON}, nice to meet you."
+            }
+        }
+		}	
+}
+		
+
+     

@@ -49,11 +49,7 @@
     <version>9.0.0.45539</version>
 </dependency>
 
-	<dependency>
-    <groupId>org.jenkins-ci.plugins</groupId>
-    <artifactId>job-log-logger-plugin</artifactId>
-    <version>1.0</version>
-</dependency>  
+ 
 	  <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
 <dependency>
   <groupId>org.apache.maven.plugins</groupId>
